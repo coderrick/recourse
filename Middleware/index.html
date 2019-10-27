@@ -41,6 +41,15 @@
         height: 240px;
         border: 1px solid black;
       }
+
+      .moodText {
+        font-size: 24px;
+        color: blue;
+      }
+
+      #colorContainer {
+        background: whitesmoke;
+      }
     </style>
     <link
       rel="stylesheet"
@@ -52,252 +61,291 @@
 
   <body ng-app="app" ng-controller="dataController">
     <!-- -->
-    <div id="my_camera"></div>
-    <input type="button" value="Take Snapshot" onclick="take_snapshot()" />
-    <br />
-    <input id="patientFirstName" />
-    <input id="patientLastName" />
-    <input id="patientAge" />
-    <input id="patientCondition" />
-    <input id="patientAddress" />
-    <input id="patientDoctors" />
-    <input id="patientSymptoms" />
-    <input id="patientMedications" />
-    
-    <button ng-click="addPatient()">Add Patient</button>
-    <div id="results"></div>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">First</th>
-          <th scope="col">Last</th>
-          <th scope="col">D.O.B</th>
-          <th scope="col">Age</th>
-          <th scope="col">Address</th>
 
-          <th scope="col">Parents</th>
-          <th scope="col">Doctors</th>
+    <div class="" id="colorContainer">
+      <nav class="navbar navbar-expand-sm bg-primary navbar-dark">
+        <ul class="navbar-nav">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Recourse</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#"></a>
+          </li>
+        </ul>
+      </nav>
 
-          <th scope="col">Illness</th>
+      <br />
+      <div class="container-fluid">
+        <div class="d-flex justify-content-center">
+          <div id="my_camera"></div>
+        </div>
 
-          <th scope="col">Medications</th>
-          <th scope="col">Symptoms</th>
-          <th scope="col">Outcome</th>
+        <input type="button" value="Take Snapshot" onclick="take_snapshot()" />
 
-          <th scope="col">Condition</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>10/3/90</td>
-          <td>29</td>
-          <td>USA</td>
-          <td>Father</td>
-          <td>Dr. Derrick</td>
-          <td>Diabetes</td>
-          <td>Insulin</td>
-          <td>Swelling</td>
-          <td>Treatment</td>
-          <td>Healthy</td>
-        </tr>
-        <tr>
-          <th scope="row">2</th>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>4/3/89</td>
-          <td>22</td>
-          <td>USA</td>
-          <td>Mother</td>
-          <td>Dr. Jones</td>
-          <td>Diabetes</td>
-          <td>Insulin</td>
-          <td>Swelling</td>
-          <td>Treatment</td>
-          <td>Healthy</td>
-        </tr>
-        <tr>
-          <th scope="row">3</th>
-          <td>Larry</td>
-          <td>the Bird</td>
-          <td>4/3/60</td>
-          <td>49</td>
-          <td>USA</td>
-          <td>Mother</td>
-          <td>Dr. Jordan</td>
-          <td>Diabetes</td>
-          <td>Insulin</td>
-          <td>Swelling</td>
-          <td>Treatment</td>
-          <td>Healthy</td>
-        </tr>
-        <tr ng-repeat="p in testData">
-          <td>{{ p.patientId }}</td>
-          <td>{{ p.name }}</td>
-          <td>{{ p.age }}</td>
-          <td>{{ p.condition }}</td>
-        </tr>
-      </tbody>
-    </table>
+        <div class="d-flex justify-content-center">
+          <div id="results"></div>
+        </div>
 
-    <!-- Code to handle taking the snapshot and displaying it locally -->
-    <script language="JavaScript">
-      // Configure a few settings and attach camera
-      Webcam.set({
-        width: 320,
-        height: 240,
-        image_format: "jpeg",
-        jpeg_quality: 90
-      });
-      Webcam.attach("#my_camera");
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">First</th>
+              <th scope="col">Last</th>
+              <th scope="col">D.O.B</th>
+              <th scope="col">Age</th>
+              <th scope="col">Address</th>
 
-      // preload shutter audio clip
-      var shutter = new Audio();
-      shutter.autoplay = true;
-      shutter.src = navigator.userAgent.match(/Firefox/)
-        ? "shutter.ogg"
-        : "shutter.mp3";
+              <th scope="col">Parents</th>
+              <th scope="col">Doctors</th>
 
-      function take_snapshot() {
-        // play sound effect
-        // shutter.play();
+              <th scope="col">Illness</th>
 
-        // take snapshot and get image data
-        Webcam.snap(function(data_uri) {
-          // display results in page
-          document.getElementById("results").innerHTML =
-            '<img src="' + data_uri + '"/>';
-        });
-        // createRecord();
+              <th scope="col">Medications</th>
+              <th scope="col">Symptoms</th>
+              <th scope="col">Outcome</th>
 
-        var fName = $("#patientFirstName").val();
-        var lName = $("#patientLastName").val();
-        var pAge = $("#patientAge").val();
-        var pCond = $("#patientCondition").val();
-      }
+              <th scope="col">Condition</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">1</th>
+              <td>Mark</td>
+              <td>Otto</td>
+              <td>10/3/90</td>
+              <td>29</td>
+              <td>USA</td>
+              <td>Father</td>
+              <td>Dr. Derrick</td>
+              <td>Diabetes</td>
+              <td>Insulin</td>
+              <td>Swelling</td>
+              <td>Treatment</td>
+              <td>Healthy</td>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td>Jacob</td>
+              <td>Thornton</td>
+              <td>4/3/89</td>
+              <td>22</td>
+              <td>USA</td>
+              <td>Mother</td>
+              <td>Dr. Jones</td>
+              <td>Diabetes</td>
+              <td>Insulin</td>
+              <td>Swelling</td>
+              <td>Treatment</td>
+              <td>Healthy</td>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <td>Larry</td>
+              <td>the Bird</td>
+              <td>4/3/60</td>
+              <td>49</td>
+              <td>USA</td>
+              <td>Mother</td>
+              <td>Dr. Jordan</td>
+              <td>Diabetes</td>
+              <td>Insulin</td>
+              <td>Swelling</td>
+              <td>Treatment</td>
+              <td>Healthy</td>
+            </tr>
+            <tr ng-repeat="p in testData">
+              <td>{{ p.patientId }}</td>
+              <td>{{ p.name }}</td>
+              <td>{{ p.age }}</td>
+              <td>{{ p.condition }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <br />
+        <input id="patientFirstName" />
+        <input id="patientLastName" />
+        <input id="patientAge" />
+        <input id="patientCondition" />
+        <input id="patientAddress" />
+        <input id="patientDoctors" />
+        <input id="patientSymptoms" />
+        <input id="patientMedications" />
 
-      function createRecord() {
-        var xhr = new XMLHttpRequest();
-        xhr.withCredentials = true;
+        <button ng-click="addPatient()">Add Patient</button>
 
-        xhr.addEventListener("readystatechange", function() {
-          if (this.readyState === 4) {
-            console.log(this.responseText);
-          }
-        });
+        <!-- Code to handle taking the snapshot and displaying it locally -->
+        <script language="JavaScript">
+          // Configure a few settings and attach camera
+          Webcam.set({
+            width: 320,
+            height: 240,
+            image_format: "jpeg",
+            jpeg_quality: 90
+          });
+          Webcam.attach("#my_camera");
 
-        xhr.open("GET", "https://hackhealth.azurehealthcareapis.com/Patient");
-        xhr.setRequestHeader(
-          "authorization",
-          "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6ImFQY3R3X29kdlJPb0VOZzNWb09sSWgydGlFcyIsImtpZCI6ImFQY3R3X29kdlJPb0VOZzNWb09sSWgydGlFcyJ9.eyJhdWQiOiJodHRwczovL2hhY2toZWFsdGguYXp1cmVoZWFsdGhjYXJlYXBpcy5jb20iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC83OWZlMDA5Yy03OWUwLTRiYzktYmFlYy1hNzZkMzE0NWJkZTUvIiwiaWF0IjoxNTcyMTg2MTc3LCJuYmYiOjE1NzIxODYxNzcsImV4cCI6MTU3MjE5MDA3NywiYWNyIjoiMSIsImFpbyI6IjQyVmdZQkRNcU02bzF6ck1tN2RmZW9LNG91S0VwWXRabythTENXMVYwYmQvK25oUi94WUEiLCJhbXIiOlsicHdkIl0sImFwcGlkIjoiMTZmMzBjYTEtMDY4ZC00N2I3LWFiYzQtNzA5MWNhM2IwYzlkIiwiYXBwaWRhY3IiOiIxIiwiZmFtaWx5X25hbWUiOiIxMDczNDgiLCJnaXZlbl9uYW1lIjoiT0RMX1VzZXIiLCJpcGFkZHIiOiIxMzYuMTc5LjIxLjc0IiwibmFtZSI6Ik9ETF9Vc2VyIDEwNzM0OCIsIm9pZCI6ImI4NmQ3MWE2LWNhY2QtNDJhNy05NWQ5LTE1NTRiNjZlODZlZSIsInNjcCI6InVzZXJfaW1wZXJzb25hdGlvbiIsInN1YiI6IjJqZ2tJLTVpZjcyc0FSWHRVRTA0Z1BaSDY5Njg2ZGJGYVhTOG4xZnB3dEkiLCJ0aWQiOiI3OWZlMDA5Yy03OWUwLTRiYzktYmFlYy1hNzZkMzE0NWJkZTUiLCJ1bmlxdWVfbmFtZSI6Im9kbF91c2VyXzEwNzM0OEBtc2F6dXJlaG9sLm9ubWljcm9zb2Z0LmNvbSIsInVwbiI6Im9kbF91c2VyXzEwNzM0OEBtc2F6dXJlaG9sLm9ubWljcm9zb2Z0LmNvbSIsInV0aSI6Il9meGNiNGFJMWttOF9neFdBOElnQUEiLCJ2ZXIiOiIxLjAifQ.CLnJsqQXxR71NX6tUNMYusNt8Vs6_ykiOhgOBvF4PHKnuTRztCoji0UA_PwT0ve-iJ8tjrf72lKy6300uDP1eDeZyXL9E-f3JkKoK7DliWS_kLpeYseuhVbDIzIOic8ZUdTew6oBUrEO3VlsmPMEbQ2qNdcPgU1tFvb9gH1arsUOA-c_ouvpFQ__vC8UgNZWE6NUpzX5ba4Ai6yleOzDH-DG75nidD-j2Hsz0nTRI4TJIG0zwpxBV9ZenmwKAWDHU14-C-0paWM8Oml2nAHi3xDgjmGqr1P2RF0R7-RqjD2vIF0jo7QekZaP0BkLUEZtDmya3wJe5GkgAYB99zWYdQ"
-        );
-        xhr.setRequestHeader("content-type", "application/json");
-        xhr.setRequestHeader("cache-control", "no-cache");
-        xhr.setRequestHeader(
-          "postman-token",
-          "344f96d5-5a17-e244-e7fc-558f620c4c3b"
-        );
+          // preload shutter audio clip
+          var shutter = new Audio();
+          shutter.autoplay = true;
+          shutter.src = navigator.userAgent.match(/Firefox/)
+            ? "shutter.ogg"
+            : "shutter.mp3";
 
-        var data = JSON.stringify({
-          resourceType: "Patient",
-          active: true,
-          name: [
-            {
-              use: "official",
-              family: "Kirk",
-              given: ["James", "Tiberious"]
-            },
-            {
-              use: "usual",
-              given: ["Jim"]
-            }
-          ],
-          gender: "male",
-          birthDate: "1960-12-25"
-        });
+          function take_snapshot() {
+            // play sound effect
+            // shutter.play();
 
-        xhr.send(data);
-      }
-
-      var app = angular.module("app", []);
-
-      app.controller("dataController", [
-        "$scope",
-        function($scope) {
-          //Initialize with Some Dummy Data.
-          // [] => .name , .price, .date, .sold, .tags
-          $scope.transactions = [
-            {
-              name: "Supreme Example",
-              price: 120,
-              date: new Date("10/17/17 19:27"),
-              tags: ["hype", "flip"]
-            },
-            {
-              name: "Kith Example",
-              price: 100,
-              date: new Date("10/17/17 19:28:01"),
-              tags: ["hype", "flip"]
-            }
-          ];
-
-          $scope.testData = [
-            {
-              name: "Chris Johnson",
-              patientId: 1,
-              age: 21,
-              condition: "Diabetes"
-            }
-          ];
-
-          //Get previous transactions if available.
-          var transactionLog = JSON.parse(
-            localStorage.getItem("transactionLog")
-          );
-
-          if (transactionLog && transactionLog.length > 0) {
-            console.log("Using localStorage transactionLog ", transactionLog);
-            $scope.transactions = transactionLog;
-          }
-
-          // Called after addItem, deletingItem, updateItem, or updatingItemTags.
-          // Get transactions from database, and set as $scope data.
-          $scope.getDBTransactions = function() {
-            console.log("getDBTransactions: calling AJAX");
-            $.ajax({
-              url:
-                "https://api.mlab.com/api/1/databases/eyecoin/collections/demo?apiKey=Un-mm4UdPQsFEX65W4eplZvLGtEBjJws",
-              type: "GET",
-              contentType: "application/json"
-            }).done(function(data) {
-              $scope.$apply(function() {
-                // $scope.transactions = data;
-              });
+            // take snapshot and get image data
+            Webcam.snap(function(data_uri) {
+              // display results in page
+              document.getElementById("results").innerHTML =
+                '<img src="' +
+                data_uri +
+                '"/>' +
+                '<br/><div class="d-flex justify-content-center"><span class="moodText">Neutral</span></div>';
             });
-          };
+            // createRecord();
 
-          $scope.getDBTransactions();
-
-          $scope.addPatient = function() {
             var fName = $("#patientFirstName").val();
             var lName = $("#patientLastName").val();
             var pAge = $("#patientAge").val();
             var pCond = $("#patientCondition").val();
+          }
 
-            var obj = {};
-            obj.name = fName + " " + lName;
-            obj.age = pAge;
-            obj.condition = pCond;
+          function createRecord() {
+            var xhr = new XMLHttpRequest();
+            xhr.withCredentials = true;
 
-            $scope.testData.push(obj);
-          };
+            xhr.addEventListener("readystatechange", function() {
+              if (this.readyState === 4) {
+                console.log(this.responseText);
+              }
+            });
 
-          //End App Initialization
-        }
-      ]);
-    </script>
+            xhr.open(
+              "GET",
+              "https://hackhealth.azurehealthcareapis.com/Patient"
+            );
+            xhr.setRequestHeader(
+              "authorization",
+              "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6ImFQY3R3X29kdlJPb0VOZzNWb09sSWgydGlFcyIsImtpZCI6ImFQY3R3X29kdlJPb0VOZzNWb09sSWgydGlFcyJ9.eyJhdWQiOiJodHRwczovL2hhY2toZWFsdGguYXp1cmVoZWFsdGhjYXJlYXBpcy5jb20iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC83OWZlMDA5Yy03OWUwLTRiYzktYmFlYy1hNzZkMzE0NWJkZTUvIiwiaWF0IjoxNTcyMTg2MTc3LCJuYmYiOjE1NzIxODYxNzcsImV4cCI6MTU3MjE5MDA3NywiYWNyIjoiMSIsImFpbyI6IjQyVmdZQkRNcU02bzF6ck1tN2RmZW9LNG91S0VwWXRabythTENXMVYwYmQvK25oUi94WUEiLCJhbXIiOlsicHdkIl0sImFwcGlkIjoiMTZmMzBjYTEtMDY4ZC00N2I3LWFiYzQtNzA5MWNhM2IwYzlkIiwiYXBwaWRhY3IiOiIxIiwiZmFtaWx5X25hbWUiOiIxMDczNDgiLCJnaXZlbl9uYW1lIjoiT0RMX1VzZXIiLCJpcGFkZHIiOiIxMzYuMTc5LjIxLjc0IiwibmFtZSI6Ik9ETF9Vc2VyIDEwNzM0OCIsIm9pZCI6ImI4NmQ3MWE2LWNhY2QtNDJhNy05NWQ5LTE1NTRiNjZlODZlZSIsInNjcCI6InVzZXJfaW1wZXJzb25hdGlvbiIsInN1YiI6IjJqZ2tJLTVpZjcyc0FSWHRVRTA0Z1BaSDY5Njg2ZGJGYVhTOG4xZnB3dEkiLCJ0aWQiOiI3OWZlMDA5Yy03OWUwLTRiYzktYmFlYy1hNzZkMzE0NWJkZTUiLCJ1bmlxdWVfbmFtZSI6Im9kbF91c2VyXzEwNzM0OEBtc2F6dXJlaG9sLm9ubWljcm9zb2Z0LmNvbSIsInVwbiI6Im9kbF91c2VyXzEwNzM0OEBtc2F6dXJlaG9sLm9ubWljcm9zb2Z0LmNvbSIsInV0aSI6Il9meGNiNGFJMWttOF9neFdBOElnQUEiLCJ2ZXIiOiIxLjAifQ.CLnJsqQXxR71NX6tUNMYusNt8Vs6_ykiOhgOBvF4PHKnuTRztCoji0UA_PwT0ve-iJ8tjrf72lKy6300uDP1eDeZyXL9E-f3JkKoK7DliWS_kLpeYseuhVbDIzIOic8ZUdTew6oBUrEO3VlsmPMEbQ2qNdcPgU1tFvb9gH1arsUOA-c_ouvpFQ__vC8UgNZWE6NUpzX5ba4Ai6yleOzDH-DG75nidD-j2Hsz0nTRI4TJIG0zwpxBV9ZenmwKAWDHU14-C-0paWM8Oml2nAHi3xDgjmGqr1P2RF0R7-RqjD2vIF0jo7QekZaP0BkLUEZtDmya3wJe5GkgAYB99zWYdQ"
+            );
+            xhr.setRequestHeader("content-type", "application/json");
+            xhr.setRequestHeader("cache-control", "no-cache");
+            xhr.setRequestHeader(
+              "postman-token",
+              "344f96d5-5a17-e244-e7fc-558f620c4c3b"
+            );
+
+            var data = JSON.stringify({
+              resourceType: "Patient",
+              active: true,
+              name: [
+                {
+                  use: "official",
+                  family: "Kirk",
+                  given: ["James", "Tiberious"]
+                },
+                {
+                  use: "usual",
+                  given: ["Jim"]
+                }
+              ],
+              gender: "male",
+              birthDate: "1960-12-25"
+            });
+
+            xhr.send(data);
+          }
+
+          var app = angular.module("app", []);
+
+          app.controller("dataController", [
+            "$scope",
+            function($scope) {
+              //Initialize with Some Dummy Data.
+              // [] => .name , .price, .date, .sold, .tags
+              $scope.transactions = [
+                {
+                  name: "Supreme Example",
+                  price: 120,
+                  date: new Date("10/17/17 19:27"),
+                  tags: ["hype", "flip"]
+                },
+                {
+                  name: "Kith Example",
+                  price: 100,
+                  date: new Date("10/17/17 19:28:01"),
+                  tags: ["hype", "flip"]
+                }
+              ];
+
+              $scope.testData = [
+                {
+                  name: "Chris Johnson",
+                  patientId: 1,
+                  age: 21,
+                  condition: "Diabetes"
+                }
+              ];
+
+              //Get previous transactions if available.
+              var transactionLog = JSON.parse(
+                localStorage.getItem("transactionLog")
+              );
+
+              if (transactionLog && transactionLog.length > 0) {
+                console.log(
+                  "Using localStorage transactionLog ",
+                  transactionLog
+                );
+                $scope.transactions = transactionLog;
+              }
+
+              // Called after addItem, deletingItem, updateItem, or updatingItemTags.
+              // Get transactions from database, and set as $scope data.
+              $scope.getDBTransactions = function() {
+                console.log("getDBTransactions: calling AJAX");
+                $.ajax({
+                  url:
+                    "https://api.mlab.com/api/1/databases/eyecoin/collections/demo?apiKey=Un-mm4UdPQsFEX65W4eplZvLGtEBjJws",
+                  type: "GET",
+                  contentType: "application/json"
+                }).done(function(data) {
+                  $scope.$apply(function() {
+                    // $scope.transactions = data;
+                  });
+                });
+              };
+
+              $scope.getDBTransactions();
+
+              $scope.addPatient = function() {
+                var fName = $("#patientFirstName").val();
+                var lName = $("#patientLastName").val();
+                var pAge = $("#patientAge").val();
+                var pCond = $("#patientCondition").val();
+
+                var obj = {};
+                obj.name = fName + " " + lName;
+                obj.age = pAge;
+                obj.condition = pCond;
+
+                $scope.testData.push(obj);
+              };
+
+              //End App Initialization
+            }
+          ]);
+        </script>
+      </div>
+    </div>
   </body>
 </html>
