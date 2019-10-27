@@ -1,62 +1,237 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Document</title>
     <!-- CSS -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.24/webcam.js"></script>
-    <style>
-        #my_camera {
-            width: 320px;
-            height: 240px;
-            border: 1px solid black;
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.24/webcam.js"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.3/angular.js"
+      integrity="sha256-rM5Qv3bJnTw+fdjV9KU7W56+HZIkvpJOfM4u1GLShro="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"
+      integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+      crossorigin="anonymous"
+    ></script>
+    <script language="JavaScript">
+      // Configure a few settings and attach camera
+      Webcam.set({
+        width: 320,
+        height: 240,
+        image_format: "jpeg",
+        jpeg_quality: 90
+      });
+      Webcam.attach("#my_camera");
+
+      // preload shutter audio clip
+      var shutter = new Audio();
+      shutter.autoplay = true;
+      shutter.src = navigator.userAgent.match(/Firefox/)
+        ? "shutter.ogg"
+        : "shutter.mp3";
+
+      function take_snapshot() {
+        // play sound effect
+        shutter.play();
+
+        // take snapshot and get image data
+        Webcam.snap(function(data_uri) {
+          // display results in page
+          document.getElementById("results").innerHTML =
+            '<img src="' + data_uri + '"/>';
+        });
+        make_request();
+        console.log(1);
+      }
+
+      function make_request() {
+        var data = JSON.stringify({
+          resourceType: "Patient",
+          active: true,
+          name: [
+            {
+              use: "official",
+              family: "Kirk",
+              given: ["James", "Tiberious"]
+            },
+            {
+              use: "usual",
+              given: ["Jim"]
+            }
+          ],
+          gender: "male",
+          birthDate: "1960-12-25"
+        });
+
+        var xhr = new XMLHttpRequest();
+        xhr.withCredentials = true;
+
+        xhr.addEventListener("readystatechange", function() {
+          if (this.readyState === 4) {
+            console.log(this.responseText);
+          }
+        });
+
+        xhr.open("GET", "https://hackhealth.azurehealthcareapis.com/Patient");
+        xhr.setRequestHeader(
+          "authorization",
+          "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6ImFQY3R3X29kdlJPb0VOZzNWb09sSWgydGlFcyIsImtpZCI6ImFQY3R3X29kdlJPb0VOZzNWb09sSWgydGlFcyJ9.eyJhdWQiOiJodHRwczovL2hhY2toZWFsdGguYXp1cmVoZWFsdGhjYXJlYXBpcy5jb20iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC83OWZlMDA5Yy03OWUwLTRiYzktYmFlYy1hNzZkMzE0NWJkZTUvIiwiaWF0IjoxNTcyMTg2MTc3LCJuYmYiOjE1NzIxODYxNzcsImV4cCI6MTU3MjE5MDA3NywiYWNyIjoiMSIsImFpbyI6IjQyVmdZQkRNcU02bzF6ck1tN2RmZW9LNG91S0VwWXRabythTENXMVYwYmQvK25oUi94WUEiLCJhbXIiOlsicHdkIl0sImFwcGlkIjoiMTZmMzBjYTEtMDY4ZC00N2I3LWFiYzQtNzA5MWNhM2IwYzlkIiwiYXBwaWRhY3IiOiIxIiwiZmFtaWx5X25hbWUiOiIxMDczNDgiLCJnaXZlbl9uYW1lIjoiT0RMX1VzZXIiLCJpcGFkZHIiOiIxMzYuMTc5LjIxLjc0IiwibmFtZSI6Ik9ETF9Vc2VyIDEwNzM0OCIsIm9pZCI6ImI4NmQ3MWE2LWNhY2QtNDJhNy05NWQ5LTE1NTRiNjZlODZlZSIsInNjcCI6InVzZXJfaW1wZXJzb25hdGlvbiIsInN1YiI6IjJqZ2tJLTVpZjcyc0FSWHRVRTA0Z1BaSDY5Njg2ZGJGYVhTOG4xZnB3dEkiLCJ0aWQiOiI3OWZlMDA5Yy03OWUwLTRiYzktYmFlYy1hNzZkMzE0NWJkZTUiLCJ1bmlxdWVfbmFtZSI6Im9kbF91c2VyXzEwNzM0OEBtc2F6dXJlaG9sLm9ubWljcm9zb2Z0LmNvbSIsInVwbiI6Im9kbF91c2VyXzEwNzM0OEBtc2F6dXJlaG9sLm9ubWljcm9zb2Z0LmNvbSIsInV0aSI6Il9meGNiNGFJMWttOF9neFdBOElnQUEiLCJ2ZXIiOiIxLjAifQ.CLnJsqQXxR71NX6tUNMYusNt8Vs6_ykiOhgOBvF4PHKnuTRztCoji0UA_PwT0ve-iJ8tjrf72lKy6300uDP1eDeZyXL9E-f3JkKoK7DliWS_kLpeYseuhVbDIzIOic8ZUdTew6oBUrEO3VlsmPMEbQ2qNdcPgU1tFvb9gH1arsUOA-c_ouvpFQ__vC8UgNZWE6NUpzX5ba4Ai6yleOzDH-DG75nidD-j2Hsz0nTRI4TJIG0zwpxBV9ZenmwKAWDHU14-C-0paWM8Oml2nAHi3xDgjmGqr1P2RF0R7-RqjD2vIF0jo7QekZaP0BkLUEZtDmya3wJe5GkgAYB99zWYdQ"
+        );
+        xhr.setRequestHeader("content-type", "application/json");
+        xhr.setRequestHeader("cache-control", "no-cache");
+        xhr.setRequestHeader(
+          "postman-token",
+          "344f96d5-5a17-e244-e7fc-558f620c4c3b"
+        );
+
+        xhr.send(data);
+      }
+
+      var app = angular.module("app", []);
+
+      app.controller("dataController", [
+        "$scope",
+        function($scope) {
+          //Initialize with Some Dummy Data.
+          // [] => .name , .price, .date, .sold, .tags
+          $scope.transactions = [
+            {
+              name: "Supreme Example",
+              price: 120,
+              date: new Date("10/17/17 19:27"),
+              tags: ["hype", "flip"]
+            },
+            {
+              name: "Kith Example",
+              price: 100,
+              date: new Date("10/17/17 19:28:01"),
+              tags: ["hype", "flip"]
+            }
+          ];
+
+          $scope.testData = [
+            {
+              name: "Chris Johnson",
+              patientId: 1,
+              age: 21,
+              condition: "Diabetes"
+            }
+          ];
+
+          //Get previous transactions if available.
+          var transactionLog = JSON.parse(
+            localStorage.getItem("transactionLog")
+          );
+
+          if (transactionLog && transactionLog.length > 0) {
+            console.log("Using localStorage transactionLog ", transactionLog);
+            $scope.transactions = transactionLog;
+          }
+
+          // Called after addItem, deletingItem, updateItem, or updatingItemTags.
+          // Get transactions from database, and set as $scope data.
+          $scope.getDBTransactions = function() {
+            console.log("getDBTransactions: calling AJAX");
+            $.ajax({
+              url:
+                "https://api.mlab.com/api/1/databases/eyecoin/collections/demo?apiKey=Un-mm4UdPQsFEX65W4eplZvLGtEBjJws",
+              type: "GET",
+              contentType: "application/json"
+            }).done(function(data) {
+              $scope.$apply(function() {
+                // $scope.transactions = data;
+              });
+            });
+          };
+
+          $scope.getDBTransactions();
+
+          //End App Initialization
         }
+      ]);
+    </script>
+    <style>
+      #my_camera {
+        width: 320px;
+        height: 240px;
+        border: 1px solid black;
+      }
     </style>
-</head>
+  </head>
 
-<body>
-
-
-
+  <body ng-app="app" ng-controller="dataController">
     <!-- -->
     <div id="my_camera"></div>
-    <input type=button value="Take Snapshot" onclick="take_snapshot()">
+    <input type="button" value="Take Snapshot" onclick="take_snapshot()" />
 
     <div id="results"></div>
 
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">First</th>
+          <th scope="col">Last</th>
+          <th scope="col">Handle</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">1</th>
+          <td>Mark</td>
+          <td>Otto</td>
+          <td>@mdo</td>
+        </tr>
+        <tr>
+          <th scope="row">2</th>
+          <td>Jacob</td>
+          <td>Thornton</td>
+          <td>@fat</td>
+        </tr>
+        <tr>
+          <th scope="row">3</th>
+          <td>Larry</td>
+          <td>the Bird</td>
+          <td>@twitter</td>
+        </tr>
+        <tr ng-repeat="p in testData">
+          <td>{{ p.patientId }}</td>
+          <td>{{ p.name }}</td>
+          <td>{{ p.age }}</td>
+          <td>{{ p.condition }}</td>
+        </tr>
+      </tbody>
+    </table>
+
     <!-- Code to handle taking the snapshot and displaying it locally -->
-    <script language="JavaScript">
-
-        // Configure a few settings and attach camera
-        Webcam.set({
-            width: 320,
-            height: 240,
-            image_format: 'jpeg',
-            jpeg_quality: 90
-        });
-        Webcam.attach('#my_camera');
-
-        // preload shutter audio clip
-        var shutter = new Audio();
-        shutter.autoplay = true;
-        shutter.src = navigator.userAgent.match(/Firefox/) ? 'shutter.ogg' : 'shutter.mp3';
-
-        function take_snapshot() {
-            // play sound effect
-            shutter.play();
-
-            // take snapshot and get image data
-            Webcam.snap(function (data_uri) {
-                // display results in page
-                document.getElementById('results').innerHTML =
-                    '<img src="' + data_uri + '"/>';
-            });
-        }
-    </script>
-
-</body>
-
+  </body>
 </html>
