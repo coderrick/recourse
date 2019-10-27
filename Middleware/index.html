@@ -6,13 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Document</title>
     <!-- CSS -->
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-      crossorigin="anonymous"
-    />
-
     <script
       src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
       integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -29,10 +22,6 @@
       crossorigin="anonymous"
     ></script>
     <script
-      type="text/javascript"
-      src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.24/webcam.js"
-    ></script>
-    <script
       src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.3/angular.js"
       integrity="sha256-rM5Qv3bJnTw+fdjV9KU7W56+HZIkvpJOfM4u1GLShro="
       crossorigin="anonymous"
@@ -42,6 +31,119 @@
       integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
       crossorigin="anonymous"
     ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.24/webcam.js"
+    ></script>
+    <style>
+      #my_camera {
+        width: 320px;
+        height: 240px;
+        border: 1px solid black;
+      }
+    </style>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+  </head>
+
+  <body ng-app="app" ng-controller="dataController">
+    <!-- -->
+    <div id="my_camera"></div>
+    <input type="button" value="Take Snapshot" onclick="take_snapshot()" />
+    <br />
+    <input id="patientFirstName" />
+    <input id="patientLastName" />
+    <input id="patientAge" />
+    <input id="patientCondition" />
+    <input id="patientAddress" />
+    <input id="patientDoctors" />
+    <input id="patientSymptoms" />
+    <input id="patientMedications" />
+    
+    <button ng-click="addPatient()">Add Patient</button>
+    <div id="results"></div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">First</th>
+          <th scope="col">Last</th>
+          <th scope="col">D.O.B</th>
+          <th scope="col">Age</th>
+          <th scope="col">Address</th>
+
+          <th scope="col">Parents</th>
+          <th scope="col">Doctors</th>
+
+          <th scope="col">Illness</th>
+
+          <th scope="col">Medications</th>
+          <th scope="col">Symptoms</th>
+          <th scope="col">Outcome</th>
+
+          <th scope="col">Condition</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">1</th>
+          <td>Mark</td>
+          <td>Otto</td>
+          <td>10/3/90</td>
+          <td>29</td>
+          <td>USA</td>
+          <td>Father</td>
+          <td>Dr. Derrick</td>
+          <td>Diabetes</td>
+          <td>Insulin</td>
+          <td>Swelling</td>
+          <td>Treatment</td>
+          <td>Healthy</td>
+        </tr>
+        <tr>
+          <th scope="row">2</th>
+          <td>Jacob</td>
+          <td>Thornton</td>
+          <td>4/3/89</td>
+          <td>22</td>
+          <td>USA</td>
+          <td>Mother</td>
+          <td>Dr. Jones</td>
+          <td>Diabetes</td>
+          <td>Insulin</td>
+          <td>Swelling</td>
+          <td>Treatment</td>
+          <td>Healthy</td>
+        </tr>
+        <tr>
+          <th scope="row">3</th>
+          <td>Larry</td>
+          <td>the Bird</td>
+          <td>4/3/60</td>
+          <td>49</td>
+          <td>USA</td>
+          <td>Mother</td>
+          <td>Dr. Jordan</td>
+          <td>Diabetes</td>
+          <td>Insulin</td>
+          <td>Swelling</td>
+          <td>Treatment</td>
+          <td>Healthy</td>
+        </tr>
+        <tr ng-repeat="p in testData">
+          <td>{{ p.patientId }}</td>
+          <td>{{ p.name }}</td>
+          <td>{{ p.age }}</td>
+          <td>{{ p.condition }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Code to handle taking the snapshot and displaying it locally -->
     <script language="JavaScript">
       // Configure a few settings and attach camera
       Webcam.set({
@@ -61,7 +163,7 @@
 
       function take_snapshot() {
         // play sound effect
-        shutter.play();
+        // shutter.play();
 
         // take snapshot and get image data
         Webcam.snap(function(data_uri) {
@@ -69,29 +171,15 @@
           document.getElementById("results").innerHTML =
             '<img src="' + data_uri + '"/>';
         });
-        make_request();
-        console.log(1);
+        // createRecord();
+
+        var fName = $("#patientFirstName").val();
+        var lName = $("#patientLastName").val();
+        var pAge = $("#patientAge").val();
+        var pCond = $("#patientCondition").val();
       }
 
-      function make_request() {
-        var data = JSON.stringify({
-          resourceType: "Patient",
-          active: true,
-          name: [
-            {
-              use: "official",
-              family: "Kirk",
-              given: ["James", "Tiberious"]
-            },
-            {
-              use: "usual",
-              given: ["Jim"]
-            }
-          ],
-          gender: "male",
-          birthDate: "1960-12-25"
-        });
-
+      function createRecord() {
         var xhr = new XMLHttpRequest();
         xhr.withCredentials = true;
 
@@ -112,6 +200,24 @@
           "postman-token",
           "344f96d5-5a17-e244-e7fc-558f620c4c3b"
         );
+
+        var data = JSON.stringify({
+          resourceType: "Patient",
+          active: true,
+          name: [
+            {
+              use: "official",
+              family: "Kirk",
+              given: ["James", "Tiberious"]
+            },
+            {
+              use: "usual",
+              given: ["Jim"]
+            }
+          ],
+          gender: "male",
+          birthDate: "1960-12-25"
+        });
 
         xhr.send(data);
       }
@@ -175,63 +281,23 @@
 
           $scope.getDBTransactions();
 
+          $scope.addPatient = function() {
+            var fName = $("#patientFirstName").val();
+            var lName = $("#patientLastName").val();
+            var pAge = $("#patientAge").val();
+            var pCond = $("#patientCondition").val();
+
+            var obj = {};
+            obj.name = fName + " " + lName;
+            obj.age = pAge;
+            obj.condition = pCond;
+
+            $scope.testData.push(obj);
+          };
+
           //End App Initialization
         }
       ]);
     </script>
-    <style>
-      #my_camera {
-        width: 320px;
-        height: 240px;
-        border: 1px solid black;
-      }
-    </style>
-  </head>
-
-  <body ng-app="app" ng-controller="dataController">
-    <!-- -->
-    <div id="my_camera"></div>
-    <input type="button" value="Take Snapshot" onclick="take_snapshot()" />
-
-    <div id="results"></div>
-
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">First</th>
-          <th scope="col">Last</th>
-          <th scope="col">Handle</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
-        </tr>
-        <tr>
-          <th scope="row">2</th>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
-        </tr>
-        <tr>
-          <th scope="row">3</th>
-          <td>Larry</td>
-          <td>the Bird</td>
-          <td>@twitter</td>
-        </tr>
-        <tr ng-repeat="p in testData">
-          <td>{{ p.patientId }}</td>
-          <td>{{ p.name }}</td>
-          <td>{{ p.age }}</td>
-          <td>{{ p.condition }}</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <!-- Code to handle taking the snapshot and displaying it locally -->
   </body>
 </html>
